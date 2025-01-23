@@ -6,6 +6,8 @@ param (
 
 $files = Get-ChildItem -Path $Path -Filter "*.json"
 
+# TODO If no files are found in the specified path, print a message and exit
+
 Write-Host "Found files: $($files.Name)"
 
 $log_entries = $files | ForEach-Object { 
@@ -15,8 +17,7 @@ $log_entries = $files | ForEach-Object {
 
 $error_entries = $log_entries | Where-Object { $_.log_level -eq "ERROR" }
 
-# Sort by log level, then message, gropup by message level combination
-$grouped = $error_entries | Group-Object -Property log_level, log_message
+$grouped = $error_entries | Group-Object -Property log_message
 
 $summary = $grouped | ForEach-Object {
     [PSCustomObject]@{
@@ -24,6 +25,7 @@ $summary = $grouped | ForEach-Object {
         log_level = $_.Group.log_level | Get-Unique
         log_message = $_.Group.log_message | Sort-Object | Get-Unique
     }
-  }
+}
 
+# TODO Export the summary to a CSV file: allow the user to optionally specify the output path
 $summary

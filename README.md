@@ -179,12 +179,14 @@ $loot
 In our scripts, we can make use of typical if else statments as well as switch statements.
 
 ``` pwsh
-$health = 100
-if ($health -gt 0) {
-    Write-Host "You are alive!"
+$cost = 550
+
+if ($gold.Quantity -gt 0) {
+    Write-Host "Item purchased!"
+    $gold.Quantity -= $cost
 } else {
-    Write-Host "You are dead!"
+    Write-Host "Insufficient funds!"
 }
 ```
 
-
+## Interactive Example - Log Aggregation/Analysis
