@@ -1,0 +1,78 @@
+{
+    "generators": [
+        {
+            "fileName": "fake-logs",
+            "fileConfigs": {
+                "format": "json"
+            },
+            "vars": {
+                "now": {
+                    "_gen": "now"
+                }
+            },
+            "data": {
+                "log_level": {
+                    "_gen": "oneOf",
+                    "choices": [
+                        "INFO",
+                        "WARN",
+                        "ERROR"
+                    ]
+                },
+                "log_message": {
+                    "_gen": "string",
+                    "expr": "#{Starwars.quotes}"
+                },
+                "time": {
+                    "_gen": "formatDateTime",
+                    "ms": {
+                        "_gen": "uniformDistribution",
+                        "bounds": [
+                            {
+                                "_gen": "subtract",
+                                "args": [
+                                    {
+                                        "_gen": "var",
+                                        "var": "now"
+                                    },
+                                    604800000
+                                ]
+                            },
+                            {
+                                "_gen": "add",
+                                "args": [
+                                    {
+                                        "_gen": "var",
+                                        "var": "now"
+                                    },
+                                    604800000
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "localConfigs": {
+                "repeat": {
+                    "rate": 0.10,
+                    "times": {
+                        "_gen": "uniformDistribution",
+                        "bounds": [
+                            1,
+                            4
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "globalConfigs": {
+        "time": 1734749814000
+    },
+    "connections": {
+        "localFs": {
+            "kind": "fileSystem",
+            "path": "/tmp/data"
+        }
+    }
+}
